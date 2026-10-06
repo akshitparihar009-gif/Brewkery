@@ -87,10 +87,18 @@ object CartRepository {
     }
 
     fun incrementQuantity(cartItemId: String) {
-        val item = _cartItems.value.find { it.cartItemId == cartItemId } ?: return
-        updateQuantity(cartItemId, item.quantity + 1)
-    }
+        val item = _cartItems.value.find {
+            it.cartItemId == cartItemId
+        } ?: return
 
+        // Maximum quantity allowed is 30
+        if (item.quantity < 30) {
+            updateQuantity(
+                cartItemId,
+                item.quantity + 1
+            )
+        }
+    }
     fun decrementQuantity(cartItemId: String) {
         val item = _cartItems.value.find { it.cartItemId == cartItemId } ?: return
         updateQuantity(cartItemId, item.quantity - 1)

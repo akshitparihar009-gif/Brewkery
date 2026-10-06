@@ -99,12 +99,19 @@ class ItemDetailViewModel(
 
     fun incrementQuantity() {
         val currentState = _uiState.value
+
         if (currentState is ItemDetailUiState.Success) {
-            val newQty = currentState.quantity + 1
-            _uiState.value = currentState.copy(
-                quantity = newQty,
-                totalPrice = currentState.unitPrice * newQty
-            )
+
+            // Maximum quantity allowed is 30
+            if (currentState.quantity < 30) {
+
+                val newQty = currentState.quantity + 1
+
+                _uiState.value = currentState.copy(
+                    quantity = newQty,
+                    totalPrice = currentState.unitPrice * newQty
+                )
+            }
         }
     }
 
